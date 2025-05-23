@@ -10,7 +10,7 @@ export function LiveProjects() {
       title: "AgriConnect",
       value: "agriconnect",
       content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-orange-500 to-orange-700">
+        <div className="w-full overflow-hidden relative h-full rounded-2xl p-4 sm:p-10 text-lg sm:text-4xl font-bold text-white bg-gradient-to-br from-orange-500 to-orange-700 min-h-[220px] sm:min-h-0">
           <p>AgriConnect</p>
           <DummyContent href="https://agriconnect07.netlify.app/" src="/assets/agri-connect.png"/>
         </div>
@@ -20,7 +20,7 @@ export function LiveProjects() {
       title: "Weather Masters",
       value: "weathermasters",
       content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-orange-500 to-orange-700">
+        <div className="w-full overflow-hidden relative h-full rounded-2xl p-4 sm:p-10 text-lg sm:text-4xl font-bold text-white bg-gradient-to-br from-orange-500 to-orange-700 min-h-[220px] sm:min-h-0">
           <p>Weather Masters</p>
           <DummyContent src="/assets/wm2.PNG" href="https://weathermasterss.netlify.app/" />
         </div>
@@ -30,7 +30,7 @@ export function LiveProjects() {
       title: "Event Ease",
       value: "eventease",
       content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-orange-500 to-orange-700">
+        <div className="w-full overflow-hidden relative h-full rounded-2xl p-4 sm:p-10 text-lg sm:text-4xl font-bold text-white bg-gradient-to-br from-orange-500 to-orange-700 min-h-[220px] sm:min-h-0">
           <p>Event Ease</p>
           <DummyContent src="/assets/ee.png" href="https://event-ease-one.vercel.app/" />
         </div>
@@ -49,12 +49,12 @@ export function LiveProjects() {
   ];
 
   return (
-    <div className="h-[20rem] md:h-[40rem] [perspective:1000px] relative b flex flex-col max-w-5xl mx-auto w-full  items-start justify-start my-40">
-      <div className="flex flex-col items-center justify-center text-center mb-8">
-        <h2 className="text-3xl md:text-5xl p-4 font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+    <div className="hidden sm:flex flex-col h-auto sm:h-[40rem] [perspective:1000px] relative max-w-5xl mx-auto w-full items-start justify-start my-20 sm:my-40">
+      <div className="flex flex-col items-center justify-center text-center mb-6">
+        <h2 className="text-2xl sm:text-5xl p-2 sm:p-4 font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
           Live Projects
         </h2>
-        <p className="text-gray-600 mt-2 text-lg">
+        <p className="text-gray-600 mt-2 text-base sm:text-lg">
           Explore my latest web development work
         </p>
       </div>
@@ -71,7 +71,7 @@ const DummyContent = ({src,href}:{src:string,href:string}) => {
         alt="Project preview"
         width={1000}
         height={1000}
-        className="object-cover object-left-top h-[60%] md:h-[90%] absolute -bottom-10 inset-x-0 w-[90%] rounded-xl mx-auto"
+        className="object-cover object-left-top h-[120px] sm:h-[90%] absolute left-1/2 -translate-x-1/2 bottom-0 sm:-bottom-10 w-[90%] rounded-xl mx-auto"
       />
     </Link>
   );
