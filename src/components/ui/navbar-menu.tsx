@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import { motion } from "motion/react";
-
-
+import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 const transition = {
   type: "spring",
@@ -24,18 +24,32 @@ export const MenuItem = ({
   item: string;
   children?: React.ReactNode;
 }) => {
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    if (active === item) {
+      setIsVisible(true);
+    } else {
+      const timer = setTimeout(() => {
+        setIsVisible(false);
+      }, 300); // Match this with your transition duration
+      return () => clearTimeout(timer);
+    }
+  }, [active, item]);
+
   return (
-    <div onMouseEnter={() => setActive(item)} className="relative ">
+    <div onMouseEnter={() => setActive(item)} className="relative">
       <motion.p
         transition={{ duration: 0.3 }}
         className="cursor-pointer text-white hover:opacity-[0.9]"
       >
         {item}
       </motion.p>
-      {active !== null && (
+      {isVisible && (
         <motion.div
           initial={{ opacity: 0, scale: 0.85, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.85, y: 10 }}
           transition={transition}
         >
           {active === item && children && (
@@ -90,7 +104,7 @@ export const ProductItem = ({
 }) => {
   return (
     <a href={href} className="flex space-x-2">
-      <img
+      <Image
         src={src}
         width={140}
         height={70}
@@ -117,5 +131,52 @@ export const HoveredLink = ({ children, ...rest }: any) => {
     >
       {children}
     </a>
+  );
+};
+
+export const NavbarMenu = ({
+  items,
+  className,
+}: {
+  items: {
+    title: string;
+    href: string;
+    image?: string;
+  }[];
+  className?: string;
+}) => {
+  return (
+    <div className={cn("flex flex-wrap gap-4", className)}>
+      {items.map((item, idx) => (
+        <a
+          key={item.href + idx}
+          href={item.href}
+          className="group relative block h-full w-full"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: idx * 0.1 }}
+            className="relative z-20 h-full w-full overflow-hidden rounded-lg border border-transparent bg-neutral-950 p-4 group-hover:border-orange-500"
+          >
+            <div className="relative z-50">
+              <h4 className="text-xl font-bold text-neutral-200">
+                {item.title}
+              </h4>
+              {item.image && (
+                <div className="relative h-48 w-full overflow-hidden rounded-lg mt-4">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </a>
+      ))}
+    </div>
   );
 };

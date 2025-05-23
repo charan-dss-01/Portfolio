@@ -1,9 +1,13 @@
 "use client";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { motion } from "motion/react";
 
-export function ColourfulText({ text }: { text: string }) {
-  const colors = [
+interface ColourfulTextProps {
+  text: string;
+}
+
+export const ColourfulText: React.FC<ColourfulTextProps> = ({ text }) => {
+  const colors = useMemo(() => [
     "rgb(131, 179, 32)",
     "rgb(47, 195, 106)",
     "rgb(42, 169, 210)",
@@ -14,7 +18,7 @@ export function ColourfulText({ text }: { text: string }) {
     "rgb(230, 64, 92)",
     "rgb(232, 98, 63)",
     "rgb(249, 129, 47)",
-  ];
+  ], []);
 
   const [currentColors, setCurrentColors] = React.useState(colors);
   const [count, setCount] = React.useState(0);
@@ -27,28 +31,33 @@ export function ColourfulText({ text }: { text: string }) {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [colors]);
 
-  return text.split("").map((char, index) => (
-    <motion.span
-      key={`${char}-${count}-${index}`}
-      initial={{
-        y: 0,
-      }}
-      animate={{
-        color: currentColors[index % currentColors.length],
-        y: [0, -3, 0],
-        scale: [1, 1.01, 1],
-        filter: ["blur(0px)", `blur(5px)`, "blur(0px)"],
-        opacity: [1, 0.8, 1],
-      }}
-      transition={{
-        duration: 0.5,
-        delay: index * 0.05,
-      }}
-      className="inline-block whitespace-pre font-sans tracking-tight"
-    >
-      {char}
-    </motion.span>
-  ));
-}
+  return (
+    <span>
+      {text.split("").map((char, index) => (
+        <motion.span
+          key={`${char}-${count}-${index}`}
+          initial={{
+            y: 0,
+            color: colors[index % colors.length],
+          }}
+          animate={{
+            color: currentColors[index % currentColors.length],
+            y: [0, -3, 0],
+            scale: [1, 1.01, 1],
+            filter: ["blur(0px)", `blur(5px)`, "blur(0px)"],
+            opacity: [1, 0.8, 1],
+          }}
+          transition={{
+            duration: 0.5,
+            delay: index * 0.05,
+          }}
+          className="inline-block whitespace-pre font-sans tracking-tight"
+        >
+          {char}
+        </motion.span>
+      ))}
+    </span>
+  );
+};

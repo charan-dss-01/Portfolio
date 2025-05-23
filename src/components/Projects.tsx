@@ -4,6 +4,7 @@ import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import { ColourfulText } from "@/components/ui/colourful-text";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from 'next/link';
+import Image from "next/image";
 
 interface Project {
     title: string;
@@ -112,7 +113,7 @@ const projects: Project[] = [
     },
 ];
 
-function page() {
+function Projects() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
@@ -143,10 +144,10 @@ function page() {
                           {project.description}
                         </CardItem>
                         <CardItem translateZ="100" className="w-full mt-4">
-                          <img
+                          <Image
                             src={project.image}
-                            height="1000"
-                            width="1000"
+                            height={1000}
+                            width={1000}
                             className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
                             alt="thumbnail"
                           />
@@ -265,4 +266,4 @@ function page() {
   )
 }
 
-export default page
+export default Projects

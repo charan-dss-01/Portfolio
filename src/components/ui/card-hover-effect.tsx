@@ -1,8 +1,10 @@
-import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
+"use client";
 
-export const HoverEffect = ({
+import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import Image from "next/image";
+
+export const CardHoverEffect = ({
   items,
   className,
 }: {
@@ -10,110 +12,50 @@ export const HoverEffect = ({
     title: string;
     description: string;
     link: string;
-    image: string; // ✅ added image field
+    image?: string;
   }[];
   className?: string;
 }) => {
-  let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
   return (
     <div
       className={cn(
-        "grid grid-cols-1 md:grid-cols-2 gap-6 py-10",
+        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-10",
         className
       )}
     >
       {items.map((item, idx) => (
-        <div
-          key={item.link}
+        <a
+          href={item.link}
+          key={item.link + idx}
           className="relative group block p-2 h-full w-full"
-          onMouseEnter={() => setHoveredIndex(idx)}
-          onMouseLeave={() => setHoveredIndex(null)}
         >
-          <AnimatePresence>
-            {hoveredIndex === idx && (
-              <motion.span
-                className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-800/[0.8] block rounded-3xl"
-                layoutId="hoverBackground"
-                initial={{ opacity: 0 }}
-                animate={{
-                  opacity: 1,
-                  transition: { duration: 0.15 },
-                }}
-                exit={{
-                  opacity: 0,
-                  transition: { duration: 0.15, delay: 0.2 },
-                }}
-              />
-            )}
-          </AnimatePresence>
-          <Card image={item.image}>
-            <CardTitle>{item.title}</CardTitle>
-            <CardDescription>{item.description}</CardDescription>
-          </Card>
-        </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: idx * 0.1 }}
+            className="relative z-20 h-full w-full overflow-hidden rounded-lg border border-transparent bg-neutral-950 p-4 group-hover:border-orange-500"
+          >
+            <div className="relative z-50">
+              <div className="p-4">
+                <h4 className="mt-4 text-xl font-bold text-neutral-200">
+                  {item.title}
+                </h4>
+                <p className="mt-2 text-neutral-300">{item.description}</p>
+              </div>
+              {item.image && (
+                <div className="relative h-48 w-full overflow-hidden rounded-lg">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </a>
       ))}
     </div>
-  );
-};
-
-export const Card = ({
-  className,
-  children,
-  image,
-}: {
-  className?: string;
-  children: React.ReactNode;
-  image: string;
-}) => {
-  return (
-    <div
-      className={cn(
-        "rounded-3xl overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20",
-        className
-      )}
-    >
-      <img
-        src={image}
-        alt=""
-        className="w-full h-48 object-cover"
-      />
-      <div className="p-4 relative z-50">
-        {children}
-      </div>
-    </div>
-  );
-};
-
-export const CardTitle = ({
-  className,
-  children,
-}: {
-  className?: string;
-  children: React.ReactNode;
-}) => {
-  return (
-    <h4 className={cn("text-zinc-100 font-bold tracking-wide mt-4", className)}>
-      {children}
-    </h4>
-  );
-};
-
-export const CardDescription = ({
-  className,
-  children,
-}: {
-  className?: string;
-  children: React.ReactNode;
-}) => {
-  return (
-    <p
-      className={cn(
-        "mt-2 text-zinc-400 tracking-wide leading-relaxed text-sm",
-        className
-      )}
-    >
-      {children}
-    </p>
   );
 };

@@ -26,6 +26,7 @@ export const TypewriterEffect = ({
 
   const [scope, animate] = useAnimate();
   const isInView = useInView(scope);
+
   useEffect(() => {
     if (isInView) {
       animate(
@@ -33,7 +34,6 @@ export const TypewriterEffect = ({
         {
           display: "inline-block",
           opacity: 1,
-          width: "fit-content",
         },
         {
           duration: 0.3,
@@ -42,7 +42,7 @@ export const TypewriterEffect = ({
         }
       );
     }
-  }, [isInView]);
+  }, [isInView, animate]);
 
   const renderWords = () => {
     return (

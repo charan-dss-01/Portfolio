@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Boxes } from "./ui/background-boxes";
 import { cn } from "@/lib/utils";
 import { TypewriterEffect, TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Contact() {
     const [success, setSuccess] = useState(false);
@@ -104,7 +104,7 @@ export default function Contact() {
                             <div className="pt-6 border-t border-zinc-800">
                                 <p className="text-gray-400 mb-4">Follow me on:</p>
                                 <div className="flex gap-6">
-                                    <a href="https://www.instagram.com/dss.charan_143/" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500 transition-colors">
+                                    <a href="https://www.instagram.com/dss_charan_07/" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500 transition-colors">
                                         <i className="fa-brands fa-instagram text-3xl text-orange-500"></i>
                                     </a>
                                     <a href="https://www.linkedin.com/in/charandonthu" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500 transition-colors">
@@ -128,6 +128,7 @@ export default function Contact() {
                                         required
                                         placeholder="Your Name"
                                         name="name"
+                                        autoComplete="name"
                                         className="w-full bg-zinc-800 border border-zinc-700 text-white p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
                                         suppressHydrationWarning
                                     />
@@ -138,6 +139,7 @@ export default function Contact() {
                                         required
                                         placeholder="Your Email"
                                         name="email"
+                                        autoComplete="email"
                                         className="w-full bg-zinc-800 border border-zinc-700 text-white p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
                                         suppressHydrationWarning
                                     />
@@ -149,6 +151,7 @@ export default function Contact() {
                                     required
                                     name="subject"
                                     placeholder="Subject"
+                                    autoComplete="off"
                                     className="w-full bg-zinc-800 border border-zinc-700 text-white p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
                                     suppressHydrationWarning
                                 />
@@ -159,6 +162,7 @@ export default function Contact() {
                                     required
                                     placeholder="Your Message"
                                     name="message"
+                                    autoComplete="off"
                                     className="w-full bg-zinc-800 border border-zinc-700 text-white p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all resize-none"
                                     suppressHydrationWarning
                                 ></textarea>
@@ -180,15 +184,22 @@ export default function Contact() {
             </div>
 
             {/* Success Message Modal */}
-            {success && (
-                <motion.div
-                    initial={{ scale: 0.5, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.5, opacity: 0 }}
-                    className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
-                    onClick={() => setSuccess(false)}
-                >
-                        <div className="bg-zinc-900 p-8 rounded-2xl shadow-2xl border border-zinc-800 max-w-2xl w-full mx-4 overflow-hidden relative" onClick={e => e.stopPropagation()}>
+            <AnimatePresence>
+                {success && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
+                        onClick={() => setSuccess(false)}
+                    >
+                        <motion.div 
+                            initial={{ scale: 0.5, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.5, opacity: 0 }}
+                            className="bg-zinc-900 p-8 rounded-2xl shadow-2xl border border-zinc-800 max-w-2xl w-full mx-4 overflow-hidden relative" 
+                            onClick={e => e.stopPropagation()}
+                        >
                             {/* Modal Content */}
                             <div className="relative z-10">
                                 <div className="text-center">
@@ -196,7 +207,7 @@ export default function Contact() {
                                         <i className="fa-solid fa-check text-white text-2xl"></i>
                                     </div>
                                     <h3 className="text-2xl font-bold text-white mb-2">Message Sent!</h3>
-                                    <p className="text-gray-400 mb-6">Thank you for reaching out. I'll get back to you soon.</p>
+                                    <p className="text-gray-400 mb-6">Thank you for reaching out. I&apos;ll get back to you soon.</p>
                                     <button
                                         onClick={() => setSuccess(false)}
                                         className="bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-all duration-300"
@@ -205,11 +216,10 @@ export default function Contact() {
                                     </button>
                                 </div>
                             </div>
-                        </div>
-
-                </motion.div>
-
-            )}
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }

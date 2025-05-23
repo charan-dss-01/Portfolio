@@ -2,6 +2,7 @@
  
 import { Tabs } from "@/components/ui/tabs";
 import Link from "next/link";
+import Image from "next/image";
  
 export function LiveProjects() {
   const tabs = [
@@ -65,13 +66,13 @@ export function LiveProjects() {
 const DummyContent = ({src,href}:{src:string,href:string}) => {
   return (
     <Link href={href} target="_blank">
-    <img
-      src={src}
-      alt="dummy image"
-      width="1000"
-      height="1000"
-      className="object-cover object-left-top h-[60%]  md:h-[90%] absolute -bottom-10 inset-x-0 w-[90%] rounded-xl mx-auto"
-    />
+      <Image
+        src={src}
+        alt="Project preview"
+        width={1000}
+        height={1000}
+        className="object-cover object-left-top h-[60%] md:h-[90%] absolute -bottom-10 inset-x-0 w-[90%] rounded-xl mx-auto"
+      />
     </Link>
   );
 };

@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Spotlight } from "./ui/Spotlight";
 import { Button } from "./ui/moving-border";
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -47,7 +48,7 @@ function HeroSection() {
           <div className="space-y-4">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
               <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
-                Hi, I'm Charan
+                Hi, I&apos;m Charan
               </span>
             </h1>
             <div className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl">
@@ -117,6 +118,8 @@ function HeroSection() {
               <img
                 src="/assets/charan.webp"
                 alt="Charan Donthu"
+                width={384}
+                height={384}
                 className="w-full h-full object-cover transition-all duration-500"
               />
             </div>

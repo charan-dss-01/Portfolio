@@ -44,7 +44,7 @@ export function Button({
         className="absolute inset-0"
         style={{ borderRadius: `calc(${borderRadius} * 0.96)` }}
       >
-        <MovingBorder duration={duration} rx="30%" ry="30%">
+        <MovingBorder duration={duration} rx={30} ry={30}>
           <div
             className={cn(
               "h-20 w-20 bg-[radial-gradient(#0ea5e9_40%,transparent_60%)] opacity-[0.8]",
@@ -71,69 +71,66 @@ export function Button({
 
 export const MovingBorder = ({
   children,
-  duration = 3000,
-  rx,
-  ry,
+  duration = 2000,
+  rx = 0,
+  ry = 0,
+  borderWidth = 2,
+  className,
   ...otherProps
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   duration?: number;
-  rx?: string;
-  ry?: string;
+  rx?: number;
+  ry?: number;
+  borderWidth?: number;
+  className?: string;
   [key: string]: any;
 }) => {
-  const pathRef = useRef<any>();
+  const pathRef = useRef<SVGPathElement>(null);
   const progress = useMotionValue<number>(0);
 
   useAnimationFrame((time) => {
-    const length = pathRef.current?.getTotalLength();
-    if (length) {
-      const pxPerMillisecond = length / duration;
-      progress.set((time * pxPerMillisecond) % length);
-    }
+    if (!pathRef.current) return;
+    const length = pathRef.current.getTotalLength();
+    const dashLength = length / 2;
+    const dashOffset = length / 2;
+    const dashArray = `${dashLength} ${dashOffset}`;
+    pathRef.current.setAttribute("stroke-dasharray", dashArray);
+    pathRef.current.setAttribute("stroke-dashoffset", `${progress.get() * length}`);
   });
 
-  const x = useTransform(
-    progress,
-    (val) => pathRef.current?.getPointAtLength(val).x,
-  );
-  const y = useTransform(
-    progress,
-    (val) => pathRef.current?.getPointAtLength(val).y,
-  );
-
-  const transform = useMotionTemplate`translateX(${x}px) translateY(${y}px) translateX(-50%) translateY(-50%)`;
-
   return (
-    <>
+    <div
+      className={cn(
+        "relative flex items-center justify-center",
+        className
+      )}
+      {...otherProps}
+    >
       <svg
-        xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="none"
-        className="absolute h-full w-full"
-        width="100%"
-        height="100%"
-        {...otherProps}
-      >
-        <rect
-          fill="none"
-          width="100%"
-          height="100%"
-          rx={rx}
-          ry={ry}
-          ref={pathRef}
-        />
-      </svg>
-      <motion.div
+        className="absolute inset-0 h-full w-full"
         style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          display: "inline-block",
-          transform,
+          filter: "blur(8px)",
         }}
       >
-        {children}
-      </motion.div>
-    </>
+        <motion.path
+          ref={pathRef}
+          d={`M ${rx} ${ry} L ${100 - rx} ${ry} L ${100 - rx} ${100 - ry} L ${rx} ${100 - ry} Z`}
+          stroke="url(#gradient)"
+          strokeWidth={borderWidth}
+          fill="none"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: duration / 1000, ease: "linear" }}
+        />
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="rgb(249, 129, 47)" />
+            <stop offset="100%" stopColor="rgb(249, 129, 47)" />
+          </linearGradient>
+        </defs>
+      </svg>
+      {children}
+    </div>
   );
 };
