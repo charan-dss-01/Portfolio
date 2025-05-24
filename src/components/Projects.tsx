@@ -48,7 +48,7 @@ const projects: Project[] = [
         "User & Admin Dashboards",
         "Cloud Image Storage"
       ],
-      link: "https://event-ease-one.vercel.app/"
+      link: "https://eventease07.netlify.app/"
     },
     {
       title: "Weather Masters",
