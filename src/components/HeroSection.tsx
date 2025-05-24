@@ -28,7 +28,7 @@ function HeroSection() {
 `;
     const handleDownload = () => {
         // Replace with your actual resume file path
-        const resumeUrl = '/assets/resume-ol(2).pdf';
+        const resumeUrl = '/assets/resume-ol (2).pdf';
         const link = document.createElement('a');
         link.href = resumeUrl;
         link.download = 'Charan_Resume.pdf';
