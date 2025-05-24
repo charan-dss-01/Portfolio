@@ -22,7 +22,7 @@ export function LiveProjects() {
       content: (
         <div className="w-full overflow-hidden relative h-full rounded-2xl p-4 sm:p-10 text-lg sm:text-4xl font-bold text-white bg-gradient-to-br from-orange-500 to-orange-700 min-h-[220px] sm:min-h-0">
           <p>Weather Masters</p>
-          <DummyContent src="/assets/wm2.PNG" href="https://weathermasterss.netlify.app/" />
+          <DummyContent src="/assets/wm2.PNG" href="https://eventease07.netlify.app/" />
         </div>
       ),
     },
